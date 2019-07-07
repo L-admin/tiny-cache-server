@@ -11,6 +11,10 @@ type cacheHandler struct {
 	*Server
 }
 
+func (s *Server) cacheHandler() http.Handler {
+	return &cacheHandler{s}
+}
+
 func (h *cacheHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	key := strings.Split(r.URL.EscapedPath(), "/")[2]
 	if len(key) == 0 {
@@ -54,7 +58,5 @@ func (h *cacheHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusMethodNotAllowed)
 }
 
-func (s *Server) cacheHandler() http.Handler {
-	return &cacheHandler{s}
-}
+
 
